@@ -1,0 +1,15 @@
+<div class="container mt-4">
+    <h2>Generar Código QR</h2>
+
+    <div class="form-group mb-3">
+        <label for="docNumber">Número de Documento</label>
+        <input type="number" class="form-control" [(ngModel)]="docNumber" placeholder="Ingrese el número de documento">
+    </div>
+
+    <button class="btn btn-primary mb-3" (click)="generateQr()">Generar QR</button>
+
+    <div *ngIf="qrImageSrc">
+        <h3>Código QR:</h3>
+        <img [src]="qrImageSrc" alt="Código QR">
+    </div>
+</div>

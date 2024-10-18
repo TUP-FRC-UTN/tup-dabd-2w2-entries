@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SendVisitor, Visitor } from '../models/visitor.model';
+import { SendVisitor, Visitor } from '../models/visitors/visitor.model';
 
 
 interface PaginatedResponse<T> {

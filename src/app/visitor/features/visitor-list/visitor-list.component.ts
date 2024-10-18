@@ -3,9 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TableColumn, TableComponent, TablePagination } from 'ngx-dabd-grupo01';
-import { VisitorService } from '../../../services/visitor.service';
-import { Visitor } from '../../../models/visitor.model';
 import { Observable } from 'rxjs';
+import { Visitor } from '../../../models/visitors/visitor.model';
+import { VisitorService } from '../../../services/visitors/visitor.service';
 
 @Component({
   selector: 'app-visitor-list',

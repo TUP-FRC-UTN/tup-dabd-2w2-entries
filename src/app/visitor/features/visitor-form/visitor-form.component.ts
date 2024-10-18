@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import moment from 'moment';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SendVisitor } from '../../../models/visitor.model';
+import { SendVisitor } from '../../../models/visitors/visitor.model';
 import { VisitorService } from '../../../services/visitor.service';
 
 @Component({
