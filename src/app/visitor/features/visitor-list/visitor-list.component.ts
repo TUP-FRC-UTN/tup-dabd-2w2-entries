@@ -18,16 +18,18 @@ export class VisitorListComponent {
   visitors: Visitor[] = [];
   private visitorService = inject(VisitorService);
   isLoading = true;
+  searchFilter: string = ''; 
   
   columns: TableColumn[] =[
     { headerName: 'Nombre', accessorKey: 'name' },
     { headerName: 'Apellido', accessorKey: 'last_name' },
-    { headerName: 'DNI', accessorKey: 'doc_number' },
+    { headerName: 'Tipo de documento', accessorKey: 'doc_type' },
+    { headerName: 'Numero de documento', accessorKey: 'doc_number' },
     { headerName: 'Fecha de Nacimiento', accessorKey: 'birth_date' },
   ];
 
   page: number = 1;
-  size: number = 10;
+  size: number = 100;
   totalItems: number = 0;
  
 
@@ -35,9 +37,9 @@ export class VisitorListComponent {
     this.loadVisitors();
   }
 
-  loadVisitors(): void {
+  loadVisitors(filter?: string): void {
     this.isLoading = true;
-    this.visitorService.getVisitorPaginated(this.page -1, this.size).subscribe({
+    this.visitorService.getVisitors(this.page -1, this.size , filter).subscribe({
     next: (data) => {
       console.log(data)
       this.visitors = data.items;
@@ -61,6 +63,15 @@ export class VisitorListComponent {
     this.loadVisitors();
   };
 
+ onFilterChange = (filter: string): void => {
+    console.log(filter);
+    
+    if(filter === '') {
+      this.loadVisitors();
+    }else{
+      this.loadVisitors(filter);
+    }
+  };
 
   deleteVisitor(id: number): void {
     if (confirm('¿Está seguro que quiere eliminar este visitante?')) {

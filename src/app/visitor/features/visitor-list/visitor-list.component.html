@@ -42,7 +42,9 @@
        size: size,
        onPageChange: onPageChange,
        onPageSizeChange: onPageSizeChange}"
-       [height]="'450px'">
+       [height]="'450px'"
+       [showExportOptions]="false"
+       (searchValueChange)="onFilterChange($event)">
        </app-table>
 
 </div>
