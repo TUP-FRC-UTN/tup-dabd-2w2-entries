@@ -4,6 +4,12 @@ import { Observable } from 'rxjs';
 import { SendVisitor, Visitor } from '../models/visitor.model';
 
 
+interface PaginatedResponse<T> {
+  items: T[];
+  total_elements: number;
+}
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,13 +18,24 @@ export class VisitorService {
 
   constructor(private http: HttpClient) {}
 
-  getVisitors(page: number = 0, size: number = 10): Observable<Visitor[]> {
+  getVisitors(page: number = 0, size: number = 1000 , filter?: string): Observable<PaginatedResponse<Visitor>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+    console.log(filter)
+    if (filter) {
+      params = params.set('filter', filter);
+    }
+    return this.http.get<PaginatedResponse<Visitor>>(this.apiUrl , { params });
+  }
+
+  /*getVisitorPaginated(page: number = 0, size: number = 10): Observable<PaginatedResponse<Visitor>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<Visitor[]>(this.apiUrl , { params });
-  }
+    return this.http.get<PaginatedResponse<Visitor>>(this.apiUrl+'/paginated' , { params });
+  }*/
 
   getVisitor(visitorId: number): Observable<Visitor> {
     return this.http.get<Visitor>(`${this.apiUrl}/${visitorId}`);
