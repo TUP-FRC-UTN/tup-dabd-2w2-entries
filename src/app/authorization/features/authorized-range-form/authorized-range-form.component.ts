@@ -9,7 +9,6 @@ import { AuthorizedRangeService } from '../../../services/authorized-range/autho
   standalone: true,
   imports: [],
   templateUrl: './authorized-range-form.component.html',
-  styleUrl: './authorized-range-form.component.scss',
 })
 export class AuthorizedRangeFormComponent {
   authorizedRange: AuthorizedRange = {
