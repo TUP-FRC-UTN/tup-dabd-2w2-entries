@@ -58,7 +58,9 @@
                         <label for="dayOfWeeks" class="form-label">Días de la Semana</label>
                         <select multiple class="form-control" id="dayOfWeeks" [(ngModel)]="authorizedRange.day_of_weeks"
                             name="dayOfWeeks" required>
-                            <option *ngFor="let day of daysOfWeek" [ngValue]="day">{{ day }}</option>
+                            @for (day of daysOfWeek; track day) {
+                            <option [ngValue]="day">{{ day }}</option>
+                            }
                         </select>
                     </div>
                 </div>

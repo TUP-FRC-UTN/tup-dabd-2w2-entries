@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AccessRecordResponse } from '../../models/accesses/access-record-response.model';
+import { AccessRecordResponse } from '../../models/accesses/access-record.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({

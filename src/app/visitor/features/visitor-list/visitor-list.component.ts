@@ -1,35 +1,49 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, NgModule, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule} from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TableColumn, TableComponent, TablePagination } from 'ngx-dabd-grupo01';
-import { Observable } from 'rxjs';
+import { TableColumn, TableComponent } from 'ngx-dabd-grupo01';
 import { Visitor } from '../../../models/visitors/visitor.model';
 import { VisitorService } from '../../../services/visitors/visitor.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-visitor-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, RouterOutlet, TableComponent],
+  imports: [CommonModule, FormsModule, RouterModule, TableComponent , NgbModule],
   templateUrl: './visitor-list.component.html',
 })
 export class VisitorListComponent {
   
-  visitors: Visitor[] = [];
   private visitorService = inject(VisitorService);
+  private router = inject(Router);
+  
+  visitors: Visitor[] = [];
   isLoading = true;
   searchFilter: string = ''; 
+
+  @ViewChild('actionsTemplate') actionsTemplate!: TemplateRef<any>; // Accedemos al ng-template
+  columns: TableColumn[] = [];
   
-  columns: TableColumn[] =[
-    { headerName: 'Nombre', accessorKey: 'name' },
-    { headerName: 'Apellido', accessorKey: 'last_name' },
-    { headerName: 'Tipo de documento', accessorKey: 'doc_type' },
-    { headerName: 'Numero de documento', accessorKey: 'doc_number' },
-    { headerName: 'Fecha de Nacimiento', accessorKey: 'birth_date' },
-  ];
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      // Configuramos las columnas, incluyendo la de acciones
+      this.columns = [
+        { headerName: 'Tipo de documento', accessorKey: 'doc_type' },
+        { headerName: 'Numero de documento', accessorKey: 'doc_number' },
+        { headerName: 'Nombre', accessorKey: 'name' },
+        { headerName: 'Apellido', accessorKey: 'last_name' },
+        {
+          headerName: 'Acciones',
+          accessorKey: 'actions',
+          cellRenderer: this.actionsTemplate, // Renderizamos la plantilla de acciones
+        },
+      ];
+    });
+  }
 
   page: number = 1;
-  size: number = 100;
+  size: number = 10;
   totalItems: number = 0;
  
 
@@ -72,6 +86,12 @@ export class VisitorListComponent {
       this.loadVisitors(filter);
     }
   };
+
+
+  editVisitor(idVisitor: number): void {
+   
+    this.router.navigate(['visitor/edit/'+ idVisitor]);
+  }
 
   deleteVisitor(id: number): void {
     if (confirm('¿Está seguro que quiere eliminar este visitante?')) {
