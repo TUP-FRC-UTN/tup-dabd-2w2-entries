@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SendVisitor, Visitor } from '../models/visitors/visitor.model';
+import { SendVisitor, Visitor } from '../../models/visitors/visitor.model';
 
 
 interface PaginatedResponse<T> {
@@ -18,7 +18,7 @@ export class VisitorService {
 
   constructor(private http: HttpClient) {}
 
-  getVisitors(page: number = 0, size: number = 1000 , filter?: string): Observable<PaginatedResponse<Visitor>> {
+  getVisitors(page: number = 0, size: number = 10 , filter?: string): Observable<PaginatedResponse<Visitor>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())
@@ -46,6 +46,6 @@ export class VisitorService {
   }
 
   deleteVisitor(visitorId: number): Observable<Visitor> {
-    return this.http.delete<Visitor>(`${this.apiUrl}/deactivate/${visitorId}`);
+    return this.http.delete<Visitor>(`${this.apiUrl}/${visitorId}`);
   }
 }

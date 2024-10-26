@@ -5,7 +5,7 @@ import moment from 'moment';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SendVisitor } from '../../../models/visitors/visitor.model';
-import { VisitorService } from '../../../services/visitor.service';
+import { VisitorService } from '../../../services/visitors/visitor.service';
 
 @Component({
   selector: 'app-visitor-form',
