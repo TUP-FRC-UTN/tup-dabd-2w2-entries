@@ -4,6 +4,11 @@ import { Observable } from 'rxjs';
 import { SendVisitor, Visitor } from '../../models/visitors/visitor.model';
 import { PaginatedResponse } from '../../paginated-response.model';
 
+interface PaginatedResponse<T> {
+  items: T[];
+  total_elements: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,13 +17,7 @@ export class VisitorService {
 
   constructor(private http: HttpClient) {}
 
-  getVisitors(
-    page: number = 0,
-    size: number = 10,
-    name?: string,
-    lastName?: string,
-    filter?: string
-  ): Observable<PaginatedResponse<Visitor>> {
+  getVisitors(page: number = 0, size: number = 10 , filter?: string): Observable<PaginatedResponse<Visitor>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -41,7 +40,7 @@ export class VisitorService {
   }
 
   deleteVisitor(visitorId: number): Observable<Visitor> {
-    return this.http.delete<Visitor>(`${this.apiUrl}/deactivate/${visitorId}`);
+    return this.http.delete<Visitor>(`${this.apiUrl}/${visitorId}`);
   }
 
   upsertVisitor(visitor: SendVisitor): Observable<Visitor> {
