@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AccessRecordProcessed } from '../../../models/accesses/access-record-response.model';
+import { AccessRecordProcessed } from '../../../models/accesses/access-record.model';
 import { AccessService } from '../../../services/access/access.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

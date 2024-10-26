@@ -1,13 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthDTO } from '../../../models/authorization/authorized-range.model';
 import { AuthRangeService } from '../../../services/authorized-range/auth-range.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-auth',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './list-auth.component.html',
-  styleUrl: './list-auth.component.scss',
 })
 export class ListAuthComponent implements OnInit {
   private serviceAuhtRange = inject(AuthRangeService);

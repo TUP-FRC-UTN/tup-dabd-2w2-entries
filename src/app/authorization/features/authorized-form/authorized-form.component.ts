@@ -1,17 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import moment from 'moment';
 import { AuthorizedRange } from '../../../models/authorization/authorized-range.model';
 import { AuthorizedRangeService } from '../../../services/authorized-range/authorized-range.service';
+import { Router } from '@angular/router';
+import moment from 'moment';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-authorized-range-form',
+  selector: 'app-authorized-form',
   standalone: true,
-  imports: [FormsModule],
-  templateUrl: './authorized-range-form.component.html',
+  imports: [CommonModule, FormsModule],
+  templateUrl: './authorized-form.component.html',
 })
-export class AuthorizedRangeFormComponent {
+export class AuthorizedFormComponent {
   authorizedRange: AuthorizedRange = {
     //auth_type_id: 0,
     //external_id: 0,

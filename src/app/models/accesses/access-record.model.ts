@@ -21,3 +21,15 @@ export interface AccessRecordProcessed {
   vehicle_description: string;
   comments: string;
 }
+
+export interface AccessDTO {
+  first_name: string;
+  last_name: string;
+  doc_number: number;
+  action: string;
+  vehicle_type: string;
+  car_description?: string;
+  vehicle_reg?: string;
+  vehicle_description?: string;
+  comments?: string;
+}
