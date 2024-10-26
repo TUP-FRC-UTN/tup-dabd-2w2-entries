@@ -10,7 +10,6 @@ export interface Visitor {
 
 export interface SendVisitor {
   name: string;
-  owner_id: number;
   last_name: string;
   doc_number: string;
   birth_date: any;
