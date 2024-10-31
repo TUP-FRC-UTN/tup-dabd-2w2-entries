@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormControl, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule, NgClass, NgIf} from '@angular/common';
 import {AccessService} from "../../../services/access.service";
@@ -7,6 +7,9 @@ import Swal from "sweetalert2";
 import {LoginService} from "../../../services/login.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {VisitorService} from "../../../services/visitor.service";
+import { NgxScannerQrcodeComponent, NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { QrComponent } from "../../../old/qr/features/qr/qr.component";
 
 @Component({
   selector: 'app-access-form',
@@ -14,17 +17,24 @@ import {VisitorService} from "../../../services/visitor.service";
   imports: [
     ReactiveFormsModule,
     NgIf,
-    NgClass
-  ],
+    NgClass,
+    NgxScannerQrcodeModule,
+    CommonModule,
+    QrComponent
+],
   templateUrl: './access-form.component.html',
   styleUrl: './access-form.component.css'
 })
 export class AccessFormComponent implements OnInit {
+
+@ViewChild('scanModal') scannerComponent!: NgxScannerQrcodeComponent
+
   accessForm: FormGroup = {} as FormGroup;
   checkButtonDisabled = true;
 
   private accessService = inject(AccessService)
   private url = inject(ActivatedRoute)
+  private modalService = inject(NgbModal)
 
   constructor(private fb: FormBuilder, private authService: AuthService, private loginService: LoginService, private router: Router, private visitorService: VisitorService) {
   }
@@ -55,6 +65,19 @@ export class AccessFormComponent implements OnInit {
     }
 
   }
+
+// Método que se puede llamar desde el HTML al escanear
+onScanComplete(data: any) {
+  const value = data[0].value;
+  const document = value.split('Document: ')[1]; // "46222977"
+  this.accessForm.get('doc_number')?.patchValue(document);
+  this.autocompleteFields(Number(document));
+}
+
+
+openScanModal() {
+this.modalService.open(this.scannerComponent, { centered: true, size: 'lg'});
+}
 
   onSubmit() {
     if (this.accessForm.valid) {

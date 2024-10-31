@@ -139,6 +139,19 @@
       </div>
     </ng-template>
 
+ 
+<!-- Componente HTML-->
+<ngx-scanner-qrcode #action="scanner" (event)="onScanComplete($event)"></ngx-scanner-qrcode>
+
+<span>{{ action.data | async | json }}</span>
+
+<p *ngIf="action.isLoading">⌛ Cargando...</p>
+
+<button (click)="action.isStart ? action.stop() : action.start()">
+  {{ action.isStart ? 'Detener' : 'Iniciar' }}
+</button>
+
+
 </app-main-container>
  
   

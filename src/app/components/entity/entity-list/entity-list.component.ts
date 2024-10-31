@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, OnInit, Pipe, TemplateRef, ViewChild} from '@angular/core';
 import {
     CadastrePlotFilterButtonsComponent
 } from "../../accesses/cadastre-access-filter-buttons/cadastre-plot-filter-buttons.component";
@@ -18,6 +18,8 @@ import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { EntityFormComponent } from '../entity-form/entity-form.component';
 import { filterVisitor, VisitorService } from '../../../services/visitor.service';
+import {NgxScannerQrcodeComponent, NgxScannerQrcodeModule} from "ngx-scanner-qrcode";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-entity-list',
@@ -28,12 +30,15 @@ import { filterVisitor, VisitorService } from '../../../services/visitor.service
     NgbPagination,
     ReactiveFormsModule,
     FormsModule,
-    TableComponent
+    TableComponent,
+    NgxScannerQrcodeModule,
+    CommonModule
   ],
   templateUrl: './entity-list.component.html',
   styleUrl: './entity-list.component.css'
 })
 export class EntityListComponent  implements OnInit, AfterViewInit {
+
     private visitorService = inject(VisitorService);
     private router = inject(Router);
     private modalService = inject(NgbModal);
@@ -41,6 +46,9 @@ export class EntityListComponent  implements OnInit, AfterViewInit {
     visitors: Visitor[] = [];
   filteredVisitors: Visitor[] = [];
   isLoading = true;
+
+  hasScanned: boolean = false;
+  scannedData: any;
   // Filtros por el buscador
   searchFilter: string = ''; 
 
@@ -82,6 +90,20 @@ export class EntityListComponent  implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.loadVisitors();
   }
+
+// Método para guardar los datos escaneados
+saveData(data: any) {
+  this.scannedData = data; // Guarda los datos en la propiedad
+  console.log("Datos escaneados:", this.scannedData);
+  // Aquí puedes implementar la lógica para guardar los datos (por ejemplo, enviarlos a una API)
+}
+
+// Método que se puede llamar desde el HTML al escanear
+onScanComplete(data: any) {
+  const value = data[0].value; // "Name: Joaquin, Last Name: Zabala, Document: 46222977"
+  const document = value.split('Document: ')[1]; // "46222977"
+  console.log(document);
+}
 
   loadVisitors(filter?: string): void {
     this.isLoading = true;
@@ -285,4 +307,5 @@ export class EntityListComponent  implements OnInit, AfterViewInit {
   onInfoButtonClick() {
     this.modalService.open(this.infoModal, {centered: true, size: 'lg'});
     }
-}
+
+  }

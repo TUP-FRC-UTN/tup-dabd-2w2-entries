@@ -1,6 +1,11 @@
 <h1 class="mt-2 p-2">Nuevo acceso</h1>
 <form [formGroup]="accessForm" (ngSubmit)="onSubmit()" class="row g-3 m-2">
 <h6>Ingresante</h6>
+
+<div>
+  <button (click)="openScanModal()" type="button" class="btn btn-info">Escanear QR</button>
+</div>
+
   <!-- Número de Documento -->
   <div class="col-md-6 mt-3">
     <div class="d-flex align-items-center flex-row">
@@ -139,3 +144,15 @@
     <button type="submit" class="btn btn-primary">Guardar</button>
   </div>
 </form>
+
+<ng-template #scanModal let-modal>
+
+<ngx-scanner-qrcode #action="scanner" (event)="onScanComplete($event)"></ngx-scanner-qrcode>
+
+<p *ngIf="action.isLoading">⌛ Cargando...</p>
+
+<button (click)="action.isStart ? action.stop() : action.start()">
+  {{ action.isStart ? 'Detener' : 'Iniciar' }}
+</button>
+</ng-template>
+
